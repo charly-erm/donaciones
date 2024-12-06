@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Donaciones</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e2f;
+            color: #f0f0f0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .profile-photo {
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            border: 5px solid #3a3a66;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .form-container {
+            background-color: rgba(40, 40, 60, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-out;
+        }
+        .radio-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        label {
+            cursor: pointer;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            color: #ffffff;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #1e1e2f, #3a3a66);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+            transition: background 0.3s, transform 0.3s, border-color 0.3s;
+            display: inline-block;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        input[type="radio"]:checked + label {
+            border-color: #ffffff;
+            background: linear-gradient(90deg, #8e44ad, #3498db, #2ecc71);
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.8);
+            animation: rgbPulse 1s infinite alternate;
+        }
+        .hidden {
+            display: none;
+        }
+        .section {
+            margin: 20px 0;
+            background-color: rgba(40, 40, 60, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        }
+        .donor-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .donor-card {
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+        }
+        .donor-card img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #8e44ad;
+        }
+        .donor-card p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #ffffff;
+        }
+        .donor-card:nth-child(1) {
+            background-color: #f1c40f; /* Dorado */
+            box-shadow: 0 0 15px 5px #f1c40f; /* Cuadro dorado */
+        }
+        .donor-card:nth-child(2) {
+            background-color: #bdc3c7; /* Plateado */
+            box-shadow: 0 0 15px 5px #bdc3c7; /* Cuadro plateado */
+        }
+        .donor-card:nth-child(3) {
+            background-color: #2980b9; /* Azul celeste */
+            box-shadow: 0 0 15px 5px #2980b9; /* Cuadro azul */
+        }
+        .donor-card:nth-child(4) {
+            background-color: #9b59b6; /* Morado */
+            box-shadow: 0 0 15px 5px #9b59b6; /* Cuadro morado */
+        }
+        .neon-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 15px 5px #f1c40f, 0 0 20px 10px #bdc3c7, 0 0 25px 15px #2980b9, 0 0 30px 20px #9b59b6;
+            border-radius: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes rgbPulse {
+            0% { background-color: #e74c3c; }
+            25% { background-color: #f39c12; }
+            50% { background-color: #2ecc71; }
+            75% { background-color: #3498db; }
+            100% { background-color: #9b59b6; }
+        }
+        .submit-container {
+            margin-top: 20px;
+        }
+        .success, .error {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+        }
+        .success {
+            color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="charly.jpg" alt="Foto de perfil" class="profile-photo">
+        <h1>¡charly asmr!</h1><h2>Gracias por tu apoyo</h2>
+        <p>Elige tu método de donación:</p>
+        
+        <div class="form-container">
+            <form>
+                <div class="radio-buttons">
+                    <input type="radio" name="metodo" value="transferencia" id="transferencia" onclick="mostrarInformacion()">
+                    <label for="transferencia"
+                    class="neon-button">Transferencia</label>
+                    <input type="radio" name="metodo" value="paypal" id="paypal" onclick="mostrarInformacion()">
+                    <label for="paypal" 
+                    class="neon-button">PayPal</label>
+                   </div>
+            </form>
+        </div>
+
+        <div id="datos-transferencia" class="hidden section">
+            <h2>Datos para Transferencia</h2>
+            <p>Beneficiario: Carlos Eduardo Borbonio Romero</p>
+            <p>Banco: BANCOPPEL</p>
+            <p>Cuenta: 10480520802</p>
+            <p>CLABE: 137905104805208023</p>
+        </div>
+
+        <div id="paypal-link" class="hidden section">
+            <h2>Datos para Donación por PayPal</h2>
+            <p>Haz tu donación a través de PayPal en el siguiente enlace:</p>
+            <a href="https://paypal.me/kerm2005fc?country.x=MX&locale.x=es_XC" target="_blank" style="color: #8e44ad; font-weight: bold; font-size: 1.2em; text-decoration: underline;">Donar con PayPal</a>
+        </div>
+
+        <div class="section donor-list">
+            <h2>Personas que nos han apoyado esta semana</h2>
+            <div class="donor-card">
+                <div class="neon-effect"></div>
+                <img src="donadorestop/1ro.jpg" alt="1er donate">
+                <p>puesto numero 1</p>
+            </div>
+            <div class="donor-card">
+                <div class="neon-effect"></div>
+                <img src="donadorestop/2do.jpg" alt="2do donante">
+                <p>puesto num 2</p>
+            </div>
+            <div class="donor-card">
+                <div class="neon-effect"></div>
+                <img src="donadorestop/3ro.jpg" alt="3er donante">
+                <p>puesto num 3</p>
+            </div>
+            <div class="donor-card">
+                <div class="neon-effect"></div>
+                <img src="donadorestop/4to.jpg" alt="donadorestop/4to donador">
+                <p>puesto num 4</p>
+            </div>
+            <!-- Agrega más tarjetas de donantes según sea necesario -->
+        </div>
+
+        <div class="section">
+            <h2>si quieres sube tu comprobante</h2>
+            <p>Por favor, sube tu comprobante de donación aquí:</p>
+    
+                <button onclick="enviarComprobante()">comporbante</button>
+                <p id="mensaje" class="hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarInformacion() {
+            const transferencia = document.getElementById('transferencia');
+            const paypal = document.getElementById('paypal');
+            const datosTransferencia = document.getElementById('datos-transferencia');
+            const paypalLink = document.getElementById('paypal-link');
+
+            if (transferencia.checked) {
+                if (datosTransferencia.classList.contains('hidden')) {
+                    datosTransferencia.classList.remove('hidden');
+                    paypalLink.classList.add('hidden');
+                } else {
+                    datosTransferencia.classList.add('hidden');
+                }
+            } else if (paypal.checked) {
+                if (paypalLink.classList.contains('hidden')) {
+                    paypalLink.classList.remove('hidden');
+                    datosTransferencia.classList.add('hidden');
+                } else {
+                    paypalLink.classList.add('hidden');
+                }
+            }
+        }
+
+        function enviarComprobante() {
+            const comprobante = document.getElementById('comprobante');
+            const mensaje = document.getElementById('mensaje');
+
+            if (comprobante.files.length > 0) {
+                // Simulación de envío exitoso (en un caso real, aquí iría la lógica de envío al servidor)
+                mensaje.textContent = '¡Comprobante enviado con éxito!';
+                mensaje.className = 'success';
+            } else {
+                // Mensaje de error si no se selecciona archivo
+                mensaje.textContent = 'Error: Por favor, selecciona un archivo antes de enviar.';
+                mensaje.className = 'error';
+            }
+
+            mensaje.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
